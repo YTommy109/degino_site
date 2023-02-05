@@ -1,0 +1,44 @@
+# The URL the site will be built for
+base_url = "https://www.degino.com/"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+theme = "hyde"
+
+title = "Degino Inc."
+description = "Scrum & XP Practitioner!"
+default_language = "ja"
+minify_html = false
+generate_feed = true
+feed_filename = "atom.xml"
+
+taxonomies = [
+    { name = "categories" },
+    { name = "tags" },
+]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[slugify]
+# ※重要※ 各要素をスラッグ化するかどうか
+# Zolaでは日本語等のマルチバイト文字は自動的にアルファベットに変換されてしまう
+# そのため、自動変換を無効にする場合は"off"にしておく
+# 例ではリンクのみを"off"にしているが、タクソノミーやパスに日本語を使う場合はそれぞれ"off"が必須
+paths = "off"
+taxonomies = "off"
+anchors = "off"
+
+[extra]
+# Put all your custom variables here
+hyde_theme = "theme-base-0d"
+hyde_links = [
+    { url = "/about/", name = "会社概要" },
+    { url = "/service/", name = "サービス" },
+    { url = "/articles/", name = "記事" },
+]
