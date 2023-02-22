@@ -37,7 +37,7 @@ info@degino.com
 - Certified Mobius Product Practitioner (2019/11)
 - Certified ScrumMaster® (2011/06)
 - 第一種情報処理
-- 第二種種情報処理
+- 第二種情報処理
 
 ## 習得技術
 
