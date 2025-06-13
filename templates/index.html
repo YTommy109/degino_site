@@ -6,7 +6,7 @@
 
       <!-- Enable responsiveness on mobile devices-->
       <!-- viewport-fit=cover is to support iPhone X rounded corners and notch in landscape-->
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
       <title>{% block title %}{{ config.title }}{% endblock title %}</title>
 
@@ -17,8 +17,9 @@
       <link rel="stylesheet" href="{{ get_url(path="degino.css", trailing_slash=false) }}">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
-      {% if config.generate_feed %}
-        <link rel="alternate" type={% if config.feed_filename == "atom.xml" %}"application/atom+xml"{% else %}"application/rss+xml"{% endif %} title="RSS" href="{{ get_url(path=config.feed_filename) | safe }}">
+      {% if config.generate_feeds %}
+        {% set feed_name = config.feed_filenames | first %}
+        <link rel="alternate" type={% if feed_name == "atom.xml" %}"application/atom+xml"{% else %}"application/rss+xml"{% endif %} title="RSS" href="{{ get_url(path=feed_name) | safe }}">
       {% endif %}
 
       {% block extra_head %}

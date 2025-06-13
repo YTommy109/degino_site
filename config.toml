@@ -12,8 +12,8 @@ title = "Degino Inc."
 description = "Scrum & XP Practitioner!"
 default_language = "ja"
 minify_html = false
-generate_feed = true
-feed_filename = "atom.xml"
+generate_feeds = true
+feed_filenames = ["atom.xml"]
 
 taxonomies = [
     { name = "categories" },
