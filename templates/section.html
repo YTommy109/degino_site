@@ -3,9 +3,18 @@
 {% block content %}
 <div class="post">
   <h1>{{ section.title }}</h1>
-  {% for post in section.pages %}
-    <h2><a href="{{ post.permalink }}">{{ post.title }}</a></h2>
-    <span class="post-date">{{ post.date | date(format="%Y-%m-%d") }}</span>
-  {% endfor %}
+  <div class="cards">
+    {% for post in section.pages %}
+      <article class="card">
+        <a href="{{ post.permalink }}"><h2>{{ post.title }}</h2></a>
+        {% if post.summary %}
+        <p>{{ post.summary | safe }}</p>
+        {% endif %}
+        {% if post.date %}
+        <time datetime="{{ post.date }}">{{ post.date | date(format="%Y-%m-%d") }}</time>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
 </div>
 {% endblock content %}
