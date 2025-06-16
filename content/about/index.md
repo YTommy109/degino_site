@@ -4,7 +4,9 @@ subtitle = "お問い合わせはこちらから。"
 template = "single.html"
 +++
 
-# デジノ株式会社
+## 会社名
+
+デジノ株式会社
 
 ## 事業内容
 
@@ -26,7 +28,7 @@ template = "single.html"
 
 ## e-mail
 
-info@degino.com
+<info@degino.com>
 
 ## 代表者名
 
@@ -34,6 +36,7 @@ info@degino.com
 
 ## 資格
 
+- Certified Scrum Product Owner® (2024/05/14)
 - Certified Mobius Product Practitioner (2019/11)
 - Certified ScrumMaster® (2011/06)
 - 第一種情報処理
@@ -41,14 +44,16 @@ info@degino.com
 
 ## 習得技術
 
-- **主言語**: TypeScript, React
-- **経験言語**: Python, Node.js, Perl, Ruby, Java, R, Solidity, Elixer, C, C++, ObjectiveC, PL/SQL, PL/1, COBOL, Pascal, UML, etc
-- **その他**:
-	- React, redux, NVD3, D3.js, Ext JS, HTML5
-	- AWS, GAE (Python), Firestore
-  - MySQL, PostgreSQL, Oracle, SQLite, Redis
-  - Redshift, Spectrum, InfiniDB
-  - Resium, Pandas, Sphinx, Tinkerer, Zola
+| カテゴリ | 技術 |
+|:--|:--|
+| 主言語 | Python, Elixir |
+| 経験言語 | TypeScript, React, Node.js, Perl, Ruby, Java, R, Solidity, C |
+| | C++, ObjectiveC, PL/SQL, PL/1, COBOL, Pascal, UML, etc |
+| フロントエンド | React, redux, NVD3, D3.js, Ext JS, HTML5 |
+| クラウド | AWS, GAE (Python), Firestore |
+| データベース | MySQL, PostgreSQL, Oracle, SQLite, Redis |
+| データ分析 | Redshift, Spectrum, InfiniDB |
+| その他 | Resium, Pandas, Sphinx, Tinkerer, Zola |
 
 ## 書籍寄稿
 
@@ -60,19 +65,19 @@ info@degino.com
 ### 2023 年
 
 - 1 月 - Regional Scrum Gathering Tokyo 2023
-	- [だったら WF でやればいいぢゃない! 〜 ところでホントに WF をご存知ですか? 〜](https://confengine.com/conferences/regional-scrum-gathering-tokyo-2023/proposal/17614)
+  - [だったら WF でやればいいぢゃない! 〜 ところでホントに WF をご存知ですか? 〜](https://confengine.com/conferences/regional-scrum-gathering-tokyo-2023/proposal/17614)
 
 ### 2022 年
 
 - 1月 - Regional Scrum Gathering Tokyo 2022
-	- [その開発計画は最初から間違えている! - アジャイルにおける開発計画の考え方について](https://confengine.com/conferences/regional-scrum-gathering-tokyo-2022/proposal/15943)
+  - [その開発計画は最初から間違えている! - アジャイルにおける開発計画の考え方について](https://confengine.com/conferences/regional-scrum-gathering-tokyo-2022/proposal/15943)
 - 5月 - スクラムフェス新潟 2022
-	- [その品質は最初から間違っている! - アジャイルにおける品質の考え方について](https://confengine.com/conferences/scrum-fest-niigata-2022/proposal/16441)
+  - [その品質は最初から間違っている! - アジャイルにおける品質の考え方について](https://confengine.com/conferences/scrum-fest-niigata-2022/proposal/16441)
 
 ### 2021 年
 
 - 6月 - スクラムフェス大阪 2021
-	-  [ゲームのように学ぶアジャイル開発](https://confengine.com/conferences/scrum-fest-osaka-2021/proposal/15163)
+  - [ゲームのように学ぶアジャイル開発](https://confengine.com/conferences/scrum-fest-osaka-2021/proposal/15163)
 
 ## 開発実績
 
