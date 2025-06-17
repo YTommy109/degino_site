@@ -1,13 +1,12 @@
 image:
   name: ghcr.io/getzola/zola:v0.20.0
-  entrypoint: [""]
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 pages:
   script:
-    - zola build -o public
+    - build
   artifacts:
     paths:
       - public
