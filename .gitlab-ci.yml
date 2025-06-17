@@ -1,13 +1,14 @@
-image:
-  name: ghcr.io/getzola/zola:v0.20.0
+image: rust:slim
 
-variables:
-  GIT_SUBMODULE_STRATEGY: recursive
+before_script:
+  - apt-get update && apt-get install -y curl unzip
+  - curl -sLo zola.zip https://github.com/getzola/zola/releases/download/v0.20.0/zola-v0.20.0-x86_64-unknown-linux-gnu.zip
+  - unzip zola.zip
+  - mv zola /usr/local/bin/
 
 pages:
-  stage: deploy
   script:
-    - build
+    - zola build
   artifacts:
     paths:
       - public
