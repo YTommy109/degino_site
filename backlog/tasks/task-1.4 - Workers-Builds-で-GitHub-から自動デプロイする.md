@@ -1,11 +1,11 @@
 ---
 id: TASK-1.4
 title: Workers Builds で GitHub から自動デプロイする
-status: In Progress
+status: Done
 assignee:
   - '@tokutomi'
 created_date: '2026-08-13 16:12'
-updated_date: '2026-08-14 01:36'
+updated_date: '2026-08-14 01:43'
 labels: []
 dependencies:
   - TASK-1.3
@@ -23,9 +23,9 @@ Cloudflare の Workers Builds を GitHub リポジトリに接続し、main へ�
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 main への push で Workers Builds が起動し、デプロイまで自動で完了する
-- [ ] #2 ビルドログで submodule が取得され zola build が成功していることが確認できる
-- [ ] #3 ビルド失敗時に気づける状態になっている（通知またはビルド状況の確認手順が記録されている）
+- [x] #1 main への push で Workers Builds が起動し、デプロイまで自動で完了する
+- [x] #2 ビルドログで submodule が取得され zola build が成功していることが確認できる
+- [x] #3 ビルド失敗時に気づける状態になっている（通知またはビルド状況の確認手順が記録されている）
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -46,4 +46,18 @@ scripts/ci-build.sh を追加し、npm script 'build' から呼ぶようにし�
 ローカル検証: 'npm run build' で既存 zola を使う経路、PATH を絞った状態で実行してダウンロード経路（aarch64-apple-darwin）、いずれも public/ の生成まで成功を確認。
 
 ダッシュボードでの GitHub 接続手順・ビルド設定値・ビルド失敗通知の設定手順を doc-1 に記録した。GitHub 連携は OAuth を伴うためダッシュボード操作が必要で、AC #1 / #2 は接続後の push で確認する。
+
+検証: main へ 2 回 push し、いずれも Workers Builds が自動起動して buildOutcome=success で完了した。
+- build f75fc445 (commit 1ef2223): zola 0.22.1 取得 → 11 pages 生成 → wrangler deploy が public/ の 38 ファイルをアップロードして完了
+- build 3d354c4d (commit 154485f): 上記に加えビルドログに 'submodule を取得中...' と 'b608547 themes/hyde' が出力され、submodule 取得を確認
+
+1 回目のログでは git submodule update が無出力のため submodule 取得を確認できなかった。検知を諦めるのではなく生成側（スクリプト）に git submodule status を追加して証跡を残すようにした。
+
+ビルド失敗の検知手順（Deployments タブ / Settings > Build のログ、GitHub のステータスチェック、失敗通知の設定手順）は doc-1 に記録済み。ダッシュボードの Notifications での失敗通知の有効化はユーザー操作として残っている。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+Zola の取得・submodule 取得・zola build を scripts/ci-build.sh に集約し npm script build から呼ぶようにした（Workers Builds は wrangler の custom builds を無視するため）。ダッシュボードで GitHub リポジトリを接続し、main への push 2 回でいずれも buildOutcome=success を確認。2 回目のビルドログで submodule 取得と zola build 成功、wrangler deploy 完了を確認した。接続設定とビルド失敗の検知手順は doc-1 に記録。
+<!-- SECTION:FINAL_SUMMARY:END -->
