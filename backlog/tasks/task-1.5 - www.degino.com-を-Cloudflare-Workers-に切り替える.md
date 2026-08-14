@@ -1,11 +1,11 @@
 ---
 id: TASK-1.5
 title: www.degino.com を Cloudflare Workers に切り替える
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-08-13 16:13'
-updated_date: '2026-08-14 02:21'
+updated_date: '2026-08-14 03:04'
 labels: []
 dependencies:
   - TASK-1.4
@@ -40,10 +40,10 @@ GitLab Pages の証明書は GitLab が自動取得・自動更新している�
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 https://www.degino.com/ が Cloudflare Workers から配信されている
-- [ ] #2 https://degino.com/ が Cloudflare の Redirect Rule で https://www.degino.com/ へリダイレクトする
-- [ ] #3 HTTPS が有効で証明書エラーが出ない（Universal SSL の発行完了を確認）
-- [ ] #4 切り戻し手順が記録されている（GitLab 側のドメイン登録を残した状態で戻せること）
+- [x] #1 https://www.degino.com/ が Cloudflare Workers から配信されている
+- [x] #2 https://degino.com/ が Cloudflare の Redirect Rule で https://www.degino.com/ へリダイレクトする
+- [x] #3 HTTPS が有効で証明書エラーが出ない（Universal SSL の発行完了を確認）
+- [x] #4 切り戻し手順が記録されている（GitLab 側のドメイン登録を残した状態で戻せること）
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -86,4 +86,37 @@ www.degino.com の切り替えを完了した（2026-08-14 02:20 UTC）。
 1. wrangler.jsonc の routes を削除して wrangler deploy（.env を退避して実行）。またはダッシュボードで degino-site のカスタムドメイン www.degino.com を削除する
 2. CNAME www.degino.com -> tommy109.gitlab.io（proxied=false, ttl=300）を再作成する
 3. GitLab 側のドメイン登録と _gitlab-pages-verification-code.www.degino.com TXT は削除していないため、GitLab Pages の証明書はそのまま有効で再取得は不要
+
+## apex の切り替えと HTTPS 強制（2026-08-14 03:00 UTC）
+
+- Redirect Rule はユーザーがダッシュボードで作成（rulesets の書き込み権限が両トークンとも無いため）。Cloudflare 提供の 'Redirect from WWW to root' テンプレートは向きが逆で、適用すると www 側が壊れるためカスタムルールで作成した
+- ルール作成後に CNAME degino.com のプロキシを ON に変更（content は tommy109.gitlab.io のまま。ルールがエッジで完結するためオリジンには到達しない）
+- 順序: ルール作成 -> DNS プロキシ ON。逆順にすると apex が www と同一内容を配信する重複コンテンツの窓ができる
+- ダッシュボード作成時に 'DNS configuration may not be proxying traffic' の警告が出るが、上記の順序に沿った想定どおりの状態なので 'Ignore and deploy rule anyway' を選んだ
+
+## 移行で見つけたデグレと対処
+GitLab Pages は HTTPS を強制していたが、Cloudflare の Always Use HTTPS が OFF だったため切替直後は http://www.degino.com/ が 200 で平文配信されていた。ユーザーが SSL/TLS > Edge Certificates で ON にして解消。
+
+## 最終検証（実測）
+| URL | 結果 |
+| --- | --- |
+| https://www.degino.com/ | 200、本文が workers.dev の応答と完全一致 |
+| https://degino.com/ | 308 -> https://www.degino.com/ |
+| https://degino.com/about/?x=1 | 308 -> https://www.degino.com/about/?x=1（パス・クエリ保持） |
+| http://www.degino.com/ | 301 -> https://www.degino.com/ |
+| http://www.degino.com/about/ | 301 -> https://www.degino.com/about/ |
+| http://degino.com/ | 308 -> https://www.degino.com/ |
+| 証明書 | CN=degino.com / Google Trust Services / 2026-11-12 まで。エラーなし |
+
+apex のリダイレクトが GitLab ではなく Cloudflare エッジから返っていることは、GitLab 由来のヘッダ（permissions-policy: interest-cohort=(), x-request-id）が消えたことで確認した。
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+www.degino.com を GitLab Pages から Cloudflare Workers へ切り替えた。カスタムドメインはダッシュボードでの手作業ではなく wrangler.jsonc の routes に custom_domain で宣言し、Workers Builds からのデプロイでも維持されるようにした。apex は GitLab Pages 自身が返していた 308 リダイレクトを Cloudflare の Redirect Rule で置き換え、その後 CNAME をプロキシ ON にした（逆順だと重複コンテンツの窓ができる）。移行で HTTPS 強制が失われていたことを実測で検出し Always Use HTTPS を有効化した。
+
+検証: https://www.degino.com/ が 200 で本文が workers.dev の応答と完全一致、https://degino.com/ と http:// の apex・www がいずれも www の HTTPS へリダイレクト（パス・クエリ保持を /about/?x=1 で確認）、証明書は CN=degino.com / Google Trust Services / 2026-11-12 まででエラーなし。GitLab 由来ヘッダの消失により apex のリダイレクトが Cloudflare エッジ由来であることを確認した。
+
+GitLab 側のドメイン登録と検証用 TXT は残したままで、CNAME を戻すだけで切り戻せる。手順は Implementation Notes に記録済み。撤去は TASK-1.6。
+<!-- SECTION:FINAL_SUMMARY:END -->
