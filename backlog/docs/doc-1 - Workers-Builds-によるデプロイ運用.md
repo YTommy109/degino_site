@@ -3,14 +3,14 @@ id: doc-1
 title: Workers Builds によるデプロイ運用
 type: guide
 created_date: '2026-08-14 01:35'
-updated_date: '2026-08-14 04:03'
+updated_date: '2026-08-14 04:29'
 ---
-## ビルド構成
-
 Workers Builds のビルド環境には Zola が入っておらず、また
 [wrangler の custom builds（`[build]` セクション）は Workers Builds では無視される](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)。
-そのため Zola の取得・submodule 取得・`zola build` をすべて `scripts/ci-build.sh` に集約し、
-`npm run build` から呼び出している。
+そのため Zola の取得・submodule 取得・`zola` の実行をすべて `scripts/zola.sh` に集約し、
+`npm run build` から呼び出している。このスクリプトは引数をそのまま `zola` へ渡すラッパーで、
+`build` 以外（`serve` / `check` など）も同じ経路を通る。ローカルと CI で同じバージョンが
+動くことを保証するための唯一の入口であり、PATH 上の `zola` を直接使う経路は用意していない。
 
 - Zola のバージョンは `.zola-version` が単一の情報源。CI もローカルもこのファイルを読む
 - テーマ `themes/hyde` は submodule のため、スクリプト内で `git submodule update --init --recursive` を実行する

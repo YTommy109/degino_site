@@ -36,7 +36,7 @@ node_modules/
 .wrangler/
 .dev.vars
 
-# ci-build.sh が取得する Zola バイナリ
+# scripts/zola.sh が取得する Zola バイナリ
 .zola-bin/
 
 # 資格情報。グローバルの ~/.config/git/ignore への依存を避けて明示する

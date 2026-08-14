@@ -35,14 +35,16 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 | コマンド | 内容 |
 | --- | --- |
-| `just build` | `public/` へビルド |
-| `just serve` | ローカルサーバ起動（http://127.0.0.1:1111） |
-| `just check` | リンク切れ等のチェック |
-| `npm run build` | CI と同じ手順でビルド（Zola 取得・submodule 取得を含む） |
+| `npm run build` | `public/` へビルド |
+| `npm run serve` | ローカルサーバ起動（http://127.0.0.1:1111） |
+| `npm run draft` | 下書きを含めてローカルサーバ起動 |
+| `npm run check` | リンク切れ等のチェック |
+| `npm run clean` | `public/` を削除 |
 | `npm run deploy` | ローカルから Cloudflare Workers へ手動デプロイ |
 
-`just build` は PATH 上の `zola` をそのまま使う。CI と同じ経路を再現したい場合は
-`npm run build`（`scripts/ci-build.sh`）を使うこと。
+Zola を呼ぶコマンドはすべて `scripts/zola.sh` を経由する。このスクリプトが submodule の
+取得と `.zola-version` のバージョンの用意を担うため、**ローカルと CI で必ず同じ Zola が
+動く**。PATH 上の `zola` を直接使わないこと。
 
 ### シンタックスハイライト
 
