@@ -11,7 +11,9 @@ cd "$(dirname "$0")/.."
 ZOLA_VERSION="$(tr -d '[:space:]' < .zola-version)"
 
 # テーマ themes/hyde は submodule。取得されていなければビルドが失敗するため必ず初期化する
+echo "submodule を取得中..."
 git submodule update --init --recursive
+git submodule status
 
 if command -v zola >/dev/null 2>&1 && [ "$(zola --version)" = "zola ${ZOLA_VERSION}" ]; then
   echo "zola ${ZOLA_VERSION} は既にインストール済み"
