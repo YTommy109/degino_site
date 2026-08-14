@@ -15,11 +15,6 @@ minify_html = false
 generate_feeds = true
 feed_filenames = ["atom.xml"]
 
-taxonomies = [
-    { name = "categories" },
-    { name = "tags" },
-]
-
 [markdown]
 
 # シンタックスハイライト（Zola 0.22 以降は [markdown.highlighting] テーブル）

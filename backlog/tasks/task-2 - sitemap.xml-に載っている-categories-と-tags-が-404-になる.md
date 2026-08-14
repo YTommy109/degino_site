@@ -1,9 +1,10 @@
 ---
 id: TASK-2
 title: sitemap.xml に載っている /categories/ と /tags/ が 404 になる
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-08-14 01:32'
+updated_date: '2026-08-14 01:51'
 labels: []
 dependencies: []
 priority: low
@@ -23,6 +24,27 @@ config.toml で categories / tags のタクソノミーを宣言している一�
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 sitemap.xml に 404 になる URL が含まれていない
-- [ ] #2 タクソノミーを残す場合は /categories/ と /tags/ が 200 を返し、外す場合は config.toml から宣言が削除されている
+- [x] #1 sitemap.xml に 404 になる URL が含まれていない
+- [x] #2 タクソノミーを残す場合は /categories/ と /tags/ が 200 を返し、外す場合は config.toml から宣言が削除されている
 <!-- AC:END -->
+
+## Implementation Plan
+
+<!-- SECTION:PLAN:BEGIN -->
+1. content/ 配下でタクソノミー(categories/tags)の使用有無を確認
+2. 未使用なら config.toml の taxonomies 宣言を削除する（テンプレート追加より単純）
+3. just build して sitemap.xml に /categories/ /tags/ が出ないことを確認
+<!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+content/ 配下の全記事のフロントマターを確認したところ categories / tags の指定は 0 件だった。テンプレートを新設するより宣言を外すほうが単純で、追加の状態も増えないため config.toml の taxonomies 宣言を削除した（[slugify] の taxonomies = "off" は将来タクソノミーを使う場合の日本語スラッグ対策としてそのまま残置）。
+検証: just build → sitemap.xml の <loc> は 13 件で /categories/ /tags/ を含まない（grep で確認）。13 件すべてに対応する public/**/index.html の存在を確認。just check もエラーなし。
+<!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+config.toml から未使用の taxonomies（categories / tags）宣言を削除し、sitemap.xml に実体の無い URL が載らないようにした。content/ にタクソノミー指定が 1 件も無いことを確認のうえ、テンプレート追加ではなく宣言削除を選択。just build 後の sitemap.xml の 13 URL すべてが生成物として存在することと、/categories/ /tags/ が含まれないことを確認。just check も通過。
+<!-- SECTION:FINAL_SUMMARY:END -->
