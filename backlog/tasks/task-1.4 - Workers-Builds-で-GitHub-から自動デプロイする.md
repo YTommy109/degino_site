@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@tokutomi'
 created_date: '2026-08-13 16:12'
-updated_date: '2026-08-14 01:43'
+updated_date: '2026-08-14 01:48'
 labels: []
 dependencies:
   - TASK-1.3
@@ -54,6 +54,8 @@ scripts/ci-build.sh を追加し、npm script 'build' から呼ぶようにし�
 1 回目のログでは git submodule update が無出力のため submodule 取得を確認できなかった。検知を諦めるのではなく生成側（スクリプト）に git submodule status を追加して証跡を残すようにした。
 
 ビルド失敗の検知手順（Deployments タブ / Settings > Build のログ、GitHub のステータスチェック、失敗通知の設定手順）は doc-1 に記録済み。ダッシュボードの Notifications での失敗通知の有効化はユーザー操作として残っている。
+
+訂正: doc-1 に記載していた「ダッシュボード > Notifications で Workers Builds の Build failed 通知を有効化する」は誤りだった。Cloudflare の Notifications に Workers Builds の通知種別は存在しない。実際の手段は (1) GitHub の Check Run（追加設定不要、現在の運用）、(2) Queues の Event Subscriptions で cf.workersBuilds.worker.build.failed を購読する方法の 2 つで、doc-1 を修正した。
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
