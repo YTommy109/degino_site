@@ -3,6 +3,16 @@
   "name": "degino-site",
   "compatibility_date": "2026-08-14",
 
+  // 本番のカスタムドメイン。custom_domain を指定すると Cloudflare が
+  // プロキシ ON の DNS レコードを作成・維持する（TLS 終端はエッジ）。
+  "routes": [
+    { "pattern": "www.degino.com", "custom_domain": true }
+  ],
+
+  // 切り戻し確認用に workers.dev の URL を残す。routes を設定すると
+  // 既定で無効化されるため明示的に有効化する。
+  "workers_dev": true,
+
   // Zola の出力をそのまま静的配信する。Worker スクリプトは持たないため
   // main と assets.binding は設定しない。
   "assets": {
