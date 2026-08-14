@@ -22,3 +22,25 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 
 </CRITICAL_INSTRUCTION>
 <!-- BACKLOG.MD GUIDELINES END -->
+
+## ビルド環境
+
+このサイトは静的サイトジェネレータ **Zola** でビルドする。
+
+- 使用バージョンは `.zola-version` を単一の情報源とする（現在: 0.22.1）
+- ローカル・CI とも `.zola-version` と同じバージョンを使うこと。バージョンが異なると
+  `config.toml` の設定形式が非互換になりビルドが失敗する
+- テーマ `themes/hyde` は git submodule。clone 直後は
+  `git submodule update --init --recursive` が必要
+
+| コマンド | 内容 |
+| --- | --- |
+| `just build` | `public/` へビルド |
+| `just serve` | ローカルサーバ起動（http://127.0.0.1:1111） |
+| `just check` | リンク切れ等のチェック |
+
+### シンタックスハイライト
+
+Zola 0.22 で設定形式が変わり、`[markdown]` の `highlight_code` / `highlight_theme` は
+`[markdown.highlighting]` テーブルに置き換わった。旧デフォルトの `base16-ocean-dark` は
+同梱テーマから削除されているため、近い配色の `Nord` を使用している。

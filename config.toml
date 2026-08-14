@@ -21,9 +21,11 @@ taxonomies = [
 ]
 
 [markdown]
-# Whether to do syntax highlighting
-# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
-highlight_code = true
+
+# シンタックスハイライト（Zola 0.22 以降は [markdown.highlighting] テーブル）
+# テーマは同梱テーマから選ぶ。旧デフォルトの base16-ocean-dark は 0.22 で削除済み
+[markdown.highlighting]
+theme = "Nord"
 
 [slugify]
 # ※重要※ 各要素をスラッグ化するかどうか
