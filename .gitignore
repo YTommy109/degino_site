@@ -35,3 +35,6 @@ shell.nix
 node_modules/
 .wrangler/
 .dev.vars
+
+# ci-build.sh が取得する Zola バイナリ
+.zola-bin/

@@ -3,6 +3,7 @@
   "private": true,
   "description": "Degino Inc. corporate site (Zola) deployed to Cloudflare Workers",
   "scripts": {
+    "build": "bash scripts/ci-build.sh",
     "dev": "wrangler dev",
     "deploy": "wrangler deploy"
   },
