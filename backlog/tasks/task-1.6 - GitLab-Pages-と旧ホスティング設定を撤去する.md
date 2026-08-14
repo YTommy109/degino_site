@@ -5,7 +5,7 @@ status: Done
 assignee:
   - '@claude'
 created_date: '2026-08-13 16:13'
-updated_date: '2026-08-14 04:06'
+updated_date: '2026-08-14 04:45'
 labels: []
 dependencies:
   - TASK-1.5
@@ -75,6 +75,11 @@ AWS アクセスキー・Netlify PAT・eNom リセラー API 資格情報も同�
 
 DNS 側の GitLab 残骸（検証用 TXT 2 件、apex CNAME の向き先、gitlab.com の Pages ドメイン登録）
 の撤去は TASK-1.7 として起票した。切り戻し経路を残すため、本番の安定稼働を確認してから着手する。
+
+## 追記（2026-08-14）
+
+- gitlab.com 側のリポジトリのアーカイブをユーザーが実施済み。decision-1 の方針が実行に移された
+- .env にあった資格情報は、AWS / Netlify / eNom から Cloudflare へのドメイン移管作業で現に使用中のものであり、ユーザーが状況を把握している。失効・ローテーションの提案は取り下げる（このリポジトリに置かれていたこと自体が誤配置だった、という指摘のみが有効）
 <!-- SECTION:NOTES:END -->
 
 ## Final Summary
