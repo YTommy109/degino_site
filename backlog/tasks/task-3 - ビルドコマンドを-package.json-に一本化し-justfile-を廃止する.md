@@ -1,7 +1,7 @@
 ---
 id: TASK-3
 title: ビルドコマンドを package.json に一本化し justfile を廃止する
-status: In Progress
+status: Done
 assignee:
   - '@claude'
 created_date: '2026-08-14 04:28'
@@ -36,10 +36,10 @@ Cloudflare のビルドコマンドは npm run build のままなので、ダッ
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 justfile が削除され、build / serve / draft / check / clean が package.json の scripts から実行できる
-- [ ] #2 ローカルのすべてのコマンドが .zola-version に固定された zola を使う（PATH 上の別バージョンに依存しない）
-- [ ] #3 CLAUDE.md のコマンド表が更新され、just と npm run の使い分けに関する注意書きが削除されている
-- [ ] #4 npm run build と npm run check がローカルで成功し、push 後の Workers Builds も成功する
+- [x] #1 justfile が削除され、build / serve / draft / check / clean が package.json の scripts から実行できる
+- [x] #2 ローカルのすべてのコマンドが .zola-version に固定された zola を使う（PATH 上の別バージョンに依存しない）
+- [x] #3 CLAUDE.md のコマンド表が更新され、just と npm run の使い分けに関する注意書きが削除されている
+- [x] #4 npm run build と npm run check がローカルで成功し、push 後の Workers Builds も成功する
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -81,3 +81,13 @@ zola の解決に .zola-bin の再利用分岐を追加した。元のスクリ�
   （PATH を /usr/bin:/bin:/usr/sbin:/sbin に絞って実行）、.zola-bin を退避して
   ダウンロードから行う場合（CI 相当）。いずれも zola 0.22.1 で 11 pages を生成
 <!-- SECTION:NOTES:END -->
+
+## Final Summary
+
+<!-- SECTION:FINAL_SUMMARY:BEGIN -->
+justfile を廃止し、Zola を呼ぶコマンドを package.json の scripts に一本化した。狙いは重複解消ではなくバージョン分岐の解消で、justfile が PATH 上の zola をバージョン確認なしに使っていたのに対し、いまはすべてのコマンドが scripts/zola.sh 経由で .zola-version に固定された zola を使う。TASK-1.6 で CLAUDE.md に書いた『just build は PATH 上の zola をそのまま使う』という注意書きは、経路の統一により不要になったので削除した。
+
+scripts/ci-build.sh は scripts/zola.sh にリネームし、末尾を exec zola "$@" にして build 以外のサブコマンドも同じ経路を通るようにした。あわせて .zola-bin の再利用分岐を追加し、PATH に zola が無い環境で毎回 36MB を取り直すのを避けた。
+
+検証: ローカルで npm run clean / build / check / serve をすべて実行（serve は http://127.0.0.1:1111/ が 200 を返し停止も確認）。zola の解決 3 経路（PATH 上の zola、.zola-bin の再利用、ダウンロード）を PATH を絞る・.zola-bin を退避するかたちで個別に実測し、いずれも 0.22.1 で 11 pages を生成。push 後の Workers Builds（d6911b1a）も 'bash scripts/zola.sh build' で成功し、www.degino.com のカスタムドメイン付きでデプロイ完了。本番の応答も確認済み。
+<!-- SECTION:FINAL_SUMMARY:END -->
