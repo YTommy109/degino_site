@@ -3,10 +3,8 @@ id: doc-1
 title: Workers Builds によるデプロイ運用
 type: guide
 created_date: '2026-08-14 01:35'
-updated_date: '2026-08-14 03:05'
+updated_date: '2026-08-14 04:03'
 ---
-<!-- constrained-by ../tasks/task-1.3 - Cloudflare-Workers-へ手動でデプロイする.md -->
-
 ## ビルド構成
 
 Workers Builds のビルド環境には Zola が入っておらず、また
@@ -83,9 +81,12 @@ Redirect Rule だけはリポジトリではなくダッシュボードにしか
 再作成が必要になる。Cloudflare 提供の「Redirect from WWW to root」テンプレートは向きが逆で、
 適用すると www 側が壊れる。カスタムルール（`Hostname equals degino.com`）で作ること。
 
-## ローカルで wrangler を実行する際の注意
+## ローカルからの手動デプロイ
 
-リポジトリ直下の `.env` に `CLOUDFLARE_API_TOKEN` があり、wrangler はこれを読んで OAuth 認証を
-上書きする。そのままだと `wrangler deploy` が `Authentication error` で失敗する。ローカルで
-実行するときは `.env` を一時的に退避すること。Workers Builds のビルド環境には `.env` が無いため
-CI 側には影響しない。
+`npm run deploy`（`wrangler deploy`）で実行する。認証は `wrangler login` の OAuth を使う。
+
+かつてリポジトリ直下に `.env` が置かれており、wrangler がその `CLOUDFLARE_API_TOKEN` を
+読んで OAuth 認証を上書きするため `Authentication error` で失敗していた。この `.env` は
+DNS 集約作業のファイルが置き去りになっていたもので、TASK-1.6 で削除済み。同じ事故を防ぐため
+`.gitignore` にも `.env` を明記した（それまではグローバルの `~/.config/git/ignore` だけが
+除外しており、単一障害点になっていた）。

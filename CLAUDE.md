@@ -38,9 +38,24 @@ Do not edit Backlog task, draft, document, decision, or milestone markdown files
 | `just build` | `public/` へビルド |
 | `just serve` | ローカルサーバ起動（http://127.0.0.1:1111） |
 | `just check` | リンク切れ等のチェック |
+| `npm run build` | CI と同じ手順でビルド（Zola 取得・submodule 取得を含む） |
+| `npm run deploy` | ローカルから Cloudflare Workers へ手動デプロイ |
+
+`just build` は PATH 上の `zola` をそのまま使う。CI と同じ経路を再現したい場合は
+`npm run build`（`scripts/ci-build.sh`）を使うこと。
 
 ### シンタックスハイライト
 
 Zola 0.22 で設定形式が変わり、`[markdown]` の `highlight_code` / `highlight_theme` は
 `[markdown.highlighting]` テーブルに置き換わった。旧デフォルトの `base16-ocean-dark` は
 同梱テーマから削除されているため、近い配色の `Nord` を使用している。
+
+## デプロイ
+
+本番は **Cloudflare Workers** で配信する。`main` への push で Workers Builds が
+自動でビルド・デプロイするため、通常の手動操作は不要。
+
+- 本番 URL は https://www.degino.com/ 。`degino.com` は Cloudflare の Redirect Rule で www へ 308
+- カスタムドメインは `wrangler.jsonc` の `routes` に宣言してある。ダッシュボードで直接いじらない
+- デプロイ運用とドメイン構成の詳細は `backlog/docs/doc-1` を参照
+- 正本は github.com:YTommy109/degino_site 。GitLab リポジトリはアーカイブして保持しており、正本ではない（`backlog/decisions/decision-1`）
