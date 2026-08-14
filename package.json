@@ -1,0 +1,15 @@
+{
+  "name": "degino-site",
+  "private": true,
+  "description": "Degino Inc. corporate site (Zola) deployed to Cloudflare Workers",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.123.0"
+  },
+  "allowScripts": {
+    "workerd@1.20260811.1": true
+  }
+}

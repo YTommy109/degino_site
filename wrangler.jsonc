@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "degino-site",
+  "compatibility_date": "2026-08-14",
+
+  // Zola の出力をそのまま静的配信する。Worker スクリプトは持たないため
+  // main と assets.binding は設定しない。
+  "assets": {
+    "directory": "./public",
+
+    // GitLab Pages は末尾スラッシュ無しの URL を 302 で
+    // スラッシュ付きへリダイレクトしていたため、その挙動に合わせる
+    "html_handling": "force-trailing-slash",
+
+    // 存在しない URL では Zola が生成する public/404.html を返す
+    "not_found_handling": "404-page"
+  },
+
+  "observability": {
+    "enabled": true
+  }
+}
