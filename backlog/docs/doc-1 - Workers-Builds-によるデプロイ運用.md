@@ -3,7 +3,7 @@ id: doc-1
 title: Workers Builds によるデプロイ運用
 type: guide
 created_date: '2026-08-14 01:35'
-updated_date: '2026-08-14 04:29'
+updated_date: '2026-08-19 07:35'
 ---
 Workers Builds のビルド環境には Zola が入っておらず、また
 [wrangler の custom builds（`[build]` セクション）は Workers Builds では無視される](https://developers.cloudflare.com/workers/ci-cd/builds/configuration/)。
@@ -67,15 +67,27 @@ Queue と通知用 Worker を別途作る必要があるため、必要になっ
 
 <!-- derived-from #ビルドログで確認すべき点 -->
 
-TASK-1.5 で www.degino.com を GitLab Pages から Workers へ切り替えた時点の構成。
+TASK-1.5 で www.degino.com を GitLab Pages から Workers へ切り替え、TASK-1.7 で GitLab 由来の
+DNS レコードを撤去した後の構成。
 
 | 対象 | 設定 | 管理場所 |
 | --- | --- | --- |
 | www.degino.com | Workers カスタムドメイン（degino-site） | `wrangler.jsonc` の `routes` |
 | degino.com | 308 -> `https://www.degino.com{path}`（クエリ保持） | Cloudflare の Redirect Rule（ダッシュボード） |
-| degino.com の DNS | CNAME -> tommy109.gitlab.io（プロキシ ON） | Cloudflare DNS |
+| degino.com の DNS | AAAA -> 100::（プロキシ ON のプレースホルダ） | Cloudflare DNS |
 | HTTPS 強制 | Always Use HTTPS = ON | SSL/TLS > Edge Certificates |
 | 証明書 | Universal SSL（degino.com / *.degino.com） | Cloudflare 自動発行・自動更新 |
+
+### apex がプレースホルダ AAAA である理由
+
+Redirect Rule はプロキシされたトラフィックにしか適用されないため、apex にプロキシ ON の
+レコードが存在し続ける必要がある。実際のオリジンは不要なので、ゾーン内の www.degino.com /
+befold.degino.com と同じ `AAAA 100::`（プロキシ ON）のプレースホルダを置いている。
+同一ゾーン内のプロキシ済みレコードへ CNAME するとオリジンループになり得るため採らない。
+
+TASK-1.7 以前は apex が `CNAME -> tommy109.gitlab.io` のままだった（GitLab への切り戻し経路の
+保持が目的）。あわせて `_gitlab-pages-verification-code` の TXT 2 件も削除済みで、ゾーンに
+GitLab 由来のレコードは残っていない。
 
 Redirect Rule だけはリポジトリではなくダッシュボードにしか無い。ゾーン設定を作り直す際は
 再作成が必要になる。Cloudflare 提供の「Redirect from WWW to root」テンプレートは向きが逆で、
